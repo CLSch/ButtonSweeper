@@ -71,7 +71,6 @@ class BSField {
   }
   
   void emptyField(int tilePos){
-    println("cur tilepos: " + tilePos);
     // tile up 
     if(((tilePos - 6) >= 0) && tiles[tilePos - 6].isClosed) {
       tiles[tilePos - 6].isClosed = false;
@@ -135,7 +134,10 @@ class BSField {
       if (!tile.isClosed) {
         fill(150);
         rect(tile.xPos, tile.yPos, tile.diam, tile.diam);
-        if (tile.value > 0) {
+        if (tile.value == -1) {
+          image(mineImg, tile.xPos, tile.yPos, tile.diam, tile.diam);
+        }
+        else if (tile.value > 0) {
           fill(255);
           textSize(50);
           // why this x and y???

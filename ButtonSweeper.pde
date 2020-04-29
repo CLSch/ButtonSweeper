@@ -2,10 +2,12 @@
 minesweeper*/
 
 BSField field;
+PImage mineImg;
 
 void setup() {
   size(800,900);
   field = new BSField();
+  mineImg = loadImage("bomb.png");
   println("start");
 }
 
@@ -23,6 +25,7 @@ void mousePressed() {
         println(tileArPos);
         
         if (tile.value == -1)
+          // this check needs to be in the drawfield func
           println("MINE!");
         else if (tile.value == 0)
           field.emptyField(tileArPos);
