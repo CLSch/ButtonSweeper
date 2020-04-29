@@ -1,25 +1,31 @@
 /* minesweeper field*/
 
 class BSField {
-  int tileAmount = 36;
-  int mineAmount = 4;
-  BSTile tiles[] = new BSTile[tileAmount];
+  final int NUMTILES = 36;
+  final int NUMMINES = 4;
+  BSTile tiles[] = new BSTile[NUMTILES];
   //int mines[] = new int [4];
   
   BSField() {
     //initialize tiles
-    for (int i = 0; i < tileAmount; i++) {
-      tiles[i] = new BSTile();
+    int tileCounter = 0;
+    for(float y = 70; y < 550 ; y+= 80) {
+      for(float x = 160; x < 640; x+= 80) {
+        tiles[tileCounter] = new BSTile(x, y);
+        tileCounter++;
+      }
     }
+    
     placeMines();
     
     // JUST FOR TESTING
     tiles[3].isClosed = false;
+    //drawField();
   }
   
   void placeMines() {
     // place all mines
-    for (int i = 0; i < mineAmount; i++) {
+    for (int i = 0; i < NUMMINES; i++) {
       int ran = (int)random(36);
       while (tiles[ran].value == -1) {
         ran = (int)random(36);
@@ -63,4 +69,20 @@ class BSField {
       tiles[minePos + 7].value++;
   }
   
+  void drawField() {
+    for (BSTile tile : tiles) {
+      fill(200);
+      rect(tile.xPos, tile.yPos, tile.diam, tile.diam);
+      if (!tile.isClosed) {
+        fill(150);
+        rect(tile.xPos, tile.yPos, tile.diam, tile.diam);
+        if (tile.value > 0) {
+          fill(255);
+          textSize(50);
+          // why this x and y???
+          text(str(tile.value), tile.xPos+25, tile.yPos+60);
+        }
+      }
+    }
+  }
 }

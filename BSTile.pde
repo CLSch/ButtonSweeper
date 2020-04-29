@@ -1,13 +1,16 @@
 /* minesweeper tile*/
 
 class BSTile{
-  int value;
+  float xPos, yPos;
+  float diam = 80;
+  int value = 0;
   boolean hasFlag = false;
   boolean isClosed = true;
   //boolean isMine = false;
   
-  BSTile() {
-    value = 0;
+  BSTile(float _x, float _y) {
+    xPos = _x;
+    yPos = _y;
   }
 }
 
