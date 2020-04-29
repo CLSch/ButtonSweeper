@@ -17,10 +17,6 @@ class BSField {
     }
     
     placeMines();
-    
-    // JUST FOR TESTING
-    tiles[3].isClosed = false;
-    //drawField();
   }
   
   void placeMines() {

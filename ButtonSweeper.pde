@@ -20,31 +20,31 @@ void draw() {
     //drawHelp();
     field.drawField();
     fill(150);
-    rect(160, 600, 480, 250);
+    rect(240, 600, 320, 250);
     
     // white square help
     fill(255);
-    rect(180, 620, 50, 50);
+    rect(260, 620, 50, 50);
     
     // black square select
     fill(30);
-    rect(570, 780, 50, 50);
+    rect(490, 780, 50, 50);
     
     // red square 
     fill(255, 0, 0);
-    rect(180, 700, 50, 50);
+    rect(260, 700, 50, 50);
     
     // yellow square
     fill(255, 255, 0);
-    rect(260, 700, 50, 50);
+    rect(330, 700, 50, 50);
     
     // blue square
     fill(0, 0, 255);
-    rect(340, 700, 50, 50);
+    rect(400, 700, 50, 50);
     
     // answer
     fill(150);
-    rect(180, 780, 50, 50);
+    rect(260, 780, 50, 50);
   }
   else if (gameState == 1) {
     drawGame();
