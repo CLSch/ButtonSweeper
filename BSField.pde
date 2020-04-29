@@ -42,6 +42,7 @@ class BSField {
     //}
     
     // add values to tiles 
+    
         
     // tile up 
     if(((minePos - 6) >= 0) && (tiles[minePos - 6].value != -1))
@@ -67,6 +68,64 @@ class BSField {
     // tile diagonal down right
     if(((minePos + 1) % 6 != 0) && ((minePos + 7) < 36) && (tiles[minePos + 7].value != -1))
       tiles[minePos + 7].value++;
+  }
+  
+  void emptyField(int tilePos){
+    println("cur tilepos: " + tilePos);
+    // tile up 
+    if(((tilePos - 6) >= 0) && tiles[tilePos - 6].isClosed) {
+      tiles[tilePos - 6].isClosed = false;
+      if (tiles[tilePos - 6].value == 0)
+        emptyField(tilePos - 6);
+    }
+    // tile down
+    if(((tilePos + 6) < 36) && tiles[tilePos + 6].isClosed) {
+      tiles[tilePos + 6].isClosed = false;
+      if (tiles[tilePos + 6].value == 0)
+        emptyField(tilePos + 6);
+    }
+    
+    // tile right
+    if(((tilePos + 1) % 6 != 0) && tiles[tilePos + 1].isClosed) {
+      tiles[tilePos + 1].isClosed = false;
+      if (tiles[tilePos + 1].value == 0)
+        emptyField(tilePos + 1);
+    }
+    
+    // tile left
+    if((tilePos % 6 != 0) && tiles[tilePos - 1].isClosed) {
+      tiles[tilePos - 1].isClosed = false;
+      if (tiles[tilePos - 1].value == 0)
+        emptyField(tilePos - 1);
+    }
+    
+    // tile diagonal up left
+    if((tilePos % 6 != 0) && ((tilePos - 7) >= 0) && tiles[tilePos - 7].isClosed) {
+      tiles[tilePos - 7].isClosed = false;
+      if (tiles[tilePos - 7].value == 0)
+        emptyField(tilePos - 7);
+    }
+    
+    // tile diagonal up right
+    if(((tilePos + 1) % 6 != 0) && ((tilePos - 5) >= 0) && tiles[tilePos - 5].isClosed) {
+      tiles[tilePos - 5].isClosed = false;
+      if (tiles[tilePos - 5].value == 0)
+        emptyField(tilePos - 5);
+    }
+    
+    // tile diagonal down left
+    if((tilePos % 6 != 0) && ((tilePos + 5) < 36) && tiles[tilePos + 5].isClosed) {
+      tiles[tilePos + 5].isClosed = false;
+      if (tiles[tilePos + 5].value == 0)
+        emptyField(tilePos + 5);
+    }
+    
+    // tile diagonal down right
+    if(((tilePos + 1) % 6 != 0) && ((tilePos + 7) < 36) && tiles[tilePos + 7].isClosed){
+      tiles[tilePos + 7].isClosed = false;
+      if (tiles[tilePos + 7].value == 0)
+        emptyField(tilePos + 7);
+    }
   }
   
   void drawField() {
