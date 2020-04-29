@@ -12,6 +12,9 @@ class BSField {
       tiles[i] = new BSTile();
     }
     placeMines();
+    
+    // JUST FOR TESTING
+    tiles[3].isClosed = false;
   }
   
   void placeMines() {
@@ -33,30 +36,30 @@ class BSField {
     //}
     
     // add values to tiles 
-      
+        
     // tile up 
-    if((minePos - 6) >= 0)
+    if(((minePos - 6) >= 0) && (tiles[minePos - 6].value != -1))
       tiles[minePos - 6].value++;
     // tile down
-    if((minePos + 6) < 36)
+    if(((minePos + 6) < 36) && (tiles[minePos + 6].value != -1))
       tiles[minePos + 6].value++;
     // tile right
-    if((minePos + 1) % 6 != 0)
+    if(((minePos + 1) % 6 != 0) && (tiles[minePos + 1].value != -1))
       tiles[minePos + 1].value++;
     // tile left
-    if(minePos % 6 != 0)
+    if((minePos % 6 != 0) && (tiles[minePos - 1].value != -1))
       tiles[minePos - 1].value++;
     // tile diagonal up left
-    if((minePos % 6 != 0) && ((minePos - 7) >= 0))
+    if((minePos % 6 != 0) && ((minePos - 7) >= 0) && (tiles[minePos - 7].value != -1))
       tiles[minePos - 7].value++;
     // tile diagonal up right
-    if(((minePos + 1) % 6 != 0) && ((minePos - 5) >= 0))
+    if(((minePos + 1) % 6 != 0) && ((minePos - 5) >= 0) && (tiles[minePos - 5].value != -1))
       tiles[minePos - 5].value++;
     // tile diagonal down left
-    if((minePos % 6 != 0) && ((minePos + 5) < 36))  
+    if((minePos % 6 != 0) && ((minePos + 5) < 36) && (tiles[minePos + 5].value != -1))  
       tiles[minePos + 5].value++;
     // tile diagonal down right
-    if(((minePos + 1) % 6 != 0) && ((minePos + 7) < 36))
+    if(((minePos + 1) % 6 != 0) && ((minePos + 7) < 36) && (tiles[minePos + 7].value != -1))
       tiles[minePos + 7].value++;
   }
   
