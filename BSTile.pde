@@ -6,6 +6,7 @@ class BSTile{
   int value = 0;
   boolean hasFlag = false;
   boolean isClosed = true;
+  boolean selected = false;
   
   BSTile(float _x, float _y) {
     xPos = _x;

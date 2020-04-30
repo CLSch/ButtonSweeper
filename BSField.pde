@@ -17,6 +17,8 @@ class BSField {
     }
     
     placeMines();
+    // put selection on first tile
+    tiles[0].selected = true;
   }
   
   void placeMines() {
@@ -126,6 +128,8 @@ class BSField {
   void drawField() {
     for (BSTile tile : tiles) {
       fill(200);
+      stroke(0);
+      strokeWeight(1);
       rect(tile.xPos, tile.yPos, tile.diam, tile.diam);
       if (!tile.isClosed) {
         fill(150);
@@ -139,6 +143,15 @@ class BSField {
           // why this x and y???
           text(str(tile.value), tile.xPos+25, tile.yPos+60);
         }
+      }
+       // draw selection
+      if (tile.selected) {
+      strokeWeight(5);
+      stroke(255, 0, 0);
+      // make transparant
+      noFill();
+      // make sure stroke is insight square
+      rect(tile.xPos + 3, tile.yPos + 3, tile.diam - 5, tile.diam - 5);
       }
     }
   }
