@@ -7,10 +7,8 @@ PImage mineImg;
 PImage flagImg;
 int gameState;
 int startTime;
-boolean gamePause;
-int test = 0;
-boolean firstTime = true;
-boolean blink = false;
+boolean gamePause, blink, firstTime, help;
+int curBut = 0;
 
 void setup() {
   
@@ -21,13 +19,16 @@ void setup() {
   mineImg = loadImage("bomb.png");
   flagImg = loadImage("flag.png");
   startTime = millis();
+  blink = false;
+  firstTime = true;
+  curBut = 0;
+  help = false;
 }
 
 void draw() {
   background(50);
   if (gameState == 0)
-    //drawHelp();
-    drawWin();
+    drawHelp();
   else if (gameState == 1)
     drawGame();
   else if (gameState == 2)
@@ -37,8 +38,7 @@ void draw() {
 }
 
 void drawHelp() {
-  //gameState++;
-  gamePause = true;
+  help = true;
   
   fill(80);
   rect(160, 70, 480, 480);
@@ -76,18 +76,20 @@ void drawWin() {
   field.drawField();
   panel.drawPanel();
   if (firstTime){
-    panel.buttons[test].toggle();
+    panel.buttons[curBut].toggle();
     firstTime = false;
   }
   if (!blink && startTime + 100 < millis()) {   
-    if (test < 11) {
-      panel.buttons[test%4].toggle();
-      panel.buttons[(test+1)%4].toggle();
-      test++;
+    if (curBut < 11) {
+      panel.buttons[curBut%4].toggle();
+      panel.buttons[(curBut+1)%4].toggle();
+      curBut++;
       startTime = millis();
     }
     else {
       blink = true;
+      //reset
+      curBut = 0;
     }
   }
   if (blink && startTime + 700 < millis()) {
@@ -109,12 +111,19 @@ void mousePressed() {
             // reset everything
             field.resetField();
             panel.resetButtons();
+            blink = false;
+            firstTime = true;
             gameState = 0;
           }
-          panel.execute(field);
-          panel.resetButtons();
+          else if (help) {
+            gameState = 1;
+          }
+          else {
+            panel.execute(field);
+            panel.resetButtons();
+          }
         }
-        else if (!gamePause){
+        else if (!gamePause && !help){
           button.toggle();
         }
       }
