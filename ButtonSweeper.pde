@@ -54,30 +54,33 @@ void drawWin() {
 }
 
 void mousePressed() {
-  int tileArPos = 0;
+  //int tileArPos = 0;
   for (BSTile tile : field.tiles) {
     if (mouseX > tile.xPos && mouseX < (tile.xPos + tile.diam)) {
       if (mouseY > tile.yPos && mouseY < (tile.yPos + tile.diam)) {
         tile.isClosed = false;
-        println(tileArPos);
+        println(tile.arPos);
         
         if (tile.value == -1)
           // this check needs to be in the drawfield func
           println("MINE!");
         else if (tile.value == 0)
-          field.emptyField(tileArPos);
+          field.emptyField(tile.arPos);
       }
     }
-    tileArPos++;
+    //tileArPos++;
   }
   
   for (PanelButton button : panel.buttons) {
     if (mouseX > button.xPos && mouseX < (button.xPos + button.diam)) {
       if (mouseY > button.yPos && mouseY < (button.yPos + button.diam)) {
-        if (button.id == 4)
+        if (button.id == 4) {
           panel.execute(field);
-        else
+          panel.resetButtons();
+        }
+        else {
           button.toggle();
+        }
       }
     }
   }

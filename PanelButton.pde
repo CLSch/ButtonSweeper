@@ -28,6 +28,11 @@ class PanelButton {
     on = !on;
   }
   
+  void switchOff() {
+    redVal = 0;
+    on = false;
+  }
+  
   //void initType() {
   //  if (reds == 255 && greens == 255 && blues == 255) 
   //    isHelp = true;

@@ -12,7 +12,7 @@ class BSField {
     int tileCounter = 0;
     for(float y = 70; y < 550 ; y+= 80) {
       for(float x = 160; x < 640; x+= 80) {
-        tiles[tileCounter] = new BSTile(x, y);
+        tiles[tileCounter] = new BSTile(x, y, tileCounter);
         tileCounter++;
       }
     }
@@ -35,119 +35,135 @@ class BSField {
     } 
   }
   
-  //void checkValidMove() {
-  //  if(((minePos - 6) >= 0) && (tiles[minePos - 6].value != -1))
-  //    tiles[minePos - 6].value++;
-  //  // tile down
-  //  if(((minePos + 6) < 36) && (tiles[minePos + 6].value != -1))
-  //    tiles[minePos + 6].value++;
-  //  // tile right
-  //  if(((minePos + 1) % 6 != 0) && (tiles[minePos + 1].value != -1))
-  //    tiles[minePos + 1].value++;
-  //  // tile left
-  //  if((minePos % 6 != 0) && (tiles[minePos - 1].value != -1))
-  //    tiles[minePos - 1].value++;
-  //  // tile diagonal up left
-  //  if((minePos % 6 != 0) && ((minePos - 7) >= 0) && (tiles[minePos - 7].value != -1))
-  //    tiles[minePos - 7].value++;
-  //  // tile diagonal up right
-  //  if(((minePos + 1) % 6 != 0) && ((minePos - 5) >= 0) && (tiles[minePos - 5].value != -1))
-  //    tiles[minePos - 5].value++;
-  //  // tile diagonal down left
-  //  if((minePos % 6 != 0) && ((minePos + 5) < 36) && (tiles[minePos + 5].value != -1))  
-  //    tiles[minePos + 5].value++;
-  //  // tile diagonal down right
-  //  if(((minePos + 1) % 6 != 0) && ((minePos + 7) < 36) && (tiles[minePos + 7].value != -1))
-  //    tiles[minePos + 7].value++;
-  //}
+  // direction: 0 = up left, 1 = up 2 = up right, 3 = right, 4 = right bottom, 5 = bottom, 6 = bottom left, 7 = left
+  boolean checkValidMove(int tilePos, int direction) {
+    // tile left up
+    if (direction == 0) {
+      if ((tilePos % 6 != 0) && ((tilePos - 7) >= 0))
+        return true;
+    }
+    // tile up
+    if (direction == 1) {
+      if ((tilePos + 6) < 36)
+        return true;
+    }
+    // tile right up
+    if (direction == 2) {
+      if (((tilePos + 1) % 6 != 0) && ((tilePos - 5) >= 0))
+        return true;
+    }
+    // tile right
+    if (direction == 3) {
+      if ((tilePos + 1) % 6 != 0)
+        return true;
+    }
+    // tile right down
+    if (direction == 4) {
+      if (((tilePos + 1) % 6 != 0) && ((tilePos + 7) < 36))
+        return true;
+    }
+    // tile down
+    if (direction == 5) {
+      if ((tilePos - 6) >= 0) {
+        println("tilePos: " + tilePos);
+        println("in down");
+        return true;
+      }
+    }
+    // tile left down
+    if (direction == 6) {
+      if ((tilePos % 6 != 0) && ((tilePos + 5) < 36))
+        return true;
+    }
+    // tile left
+    if (direction == 7) {
+      if (tilePos % 6 != 0)
+        return true;
+    }
+    return false;
+  }
   
   
   void placeValues(int minePos) {
-    //for (int i = 0; i < tileAmount; i++) {
-    //  if (tiles[i - 1] != null && tiles[i-1])
-    //  tiles[i]
-    //}
-    
     // add values to tiles 
-    
         
-    // tile up 
-    if(((minePos - 6) >= 0) && (tiles[minePos - 6].value != -1))
+    // tile down 
+    if((checkValidMove(minePos, 5)) && (tiles[minePos - 6].value != -1))
       tiles[minePos - 6].value++;
-    // tile down
-    if(((minePos + 6) < 36) && (tiles[minePos + 6].value != -1))
+    // tile up
+    if((checkValidMove(minePos, 1)) && (tiles[minePos + 6].value != -1))
       tiles[minePos + 6].value++;
     // tile right
-    if(((minePos + 1) % 6 != 0) && (tiles[minePos + 1].value != -1))
+    if((checkValidMove(minePos, 3)) && (tiles[minePos + 1].value != -1))
       tiles[minePos + 1].value++;
     // tile left
-    if((minePos % 6 != 0) && (tiles[minePos - 1].value != -1))
+    if((checkValidMove(minePos, 7)) && (tiles[minePos - 1].value != -1))
       tiles[minePos - 1].value++;
     // tile diagonal up left
-    if((minePos % 6 != 0) && ((minePos - 7) >= 0) && (tiles[minePos - 7].value != -1))
+    if((checkValidMove(minePos, 0)) && (tiles[minePos - 7].value != -1))
       tiles[minePos - 7].value++;
     // tile diagonal up right
-    if(((minePos + 1) % 6 != 0) && ((minePos - 5) >= 0) && (tiles[minePos - 5].value != -1))
+    if((checkValidMove(minePos, 2)) && (tiles[minePos - 5].value != -1))
       tiles[minePos - 5].value++;
     // tile diagonal down left
-    if((minePos % 6 != 0) && ((minePos + 5) < 36) && (tiles[minePos + 5].value != -1))  
+    if((checkValidMove(minePos, 6)) && (tiles[minePos + 5].value != -1))  
       tiles[minePos + 5].value++;
     // tile diagonal down right
-    if(((minePos + 1) % 6 != 0) && ((minePos + 7) < 36) && (tiles[minePos + 7].value != -1))
+    if((checkValidMove(minePos, 4)) && (tiles[minePos + 7].value != -1))
       tiles[minePos + 7].value++;
   }
   
   void emptyField(int tilePos){
     // tile up 
-    if(((tilePos - 6) >= 0) && tiles[tilePos - 6].isClosed) {
+    if(checkValidMove(tilePos, 1) && tiles[tilePos - 6].isClosed) {
       tiles[tilePos - 6].isClosed = false;
       if (tiles[tilePos - 6].value == 0)
         emptyField(tilePos - 6);
     }
     // tile down
-    if(((tilePos + 6) < 36) && tiles[tilePos + 6].isClosed) {
+    if(checkValidMove(tilePos, 5) && tiles[tilePos + 6].isClosed) {
       tiles[tilePos + 6].isClosed = false;
       if (tiles[tilePos + 6].value == 0)
         emptyField(tilePos + 6);
     }
     
     // tile right
-    if(((tilePos + 1) % 6 != 0) && tiles[tilePos + 1].isClosed) {
+    if(checkValidMove(tilePos, 3) && tiles[tilePos + 1].isClosed) {
       tiles[tilePos + 1].isClosed = false;
       if (tiles[tilePos + 1].value == 0)
         emptyField(tilePos + 1);
     }
     
     // tile left
-    if((tilePos % 6 != 0) && tiles[tilePos - 1].isClosed) {
+    if(checkValidMove(tilePos, 7) && tiles[tilePos - 1].isClosed) {
       tiles[tilePos - 1].isClosed = false;
       if (tiles[tilePos - 1].value == 0)
         emptyField(tilePos - 1);
     }
     
     // tile diagonal up left
-    if((tilePos % 6 != 0) && ((tilePos - 7) >= 0) && tiles[tilePos - 7].isClosed) {
+    if(checkValidMove(tilePos, 0) && tiles[tilePos - 7].isClosed) {
       tiles[tilePos - 7].isClosed = false;
       if (tiles[tilePos - 7].value == 0)
         emptyField(tilePos - 7);
     }
     
     // tile diagonal up right
-    if(((tilePos + 1) % 6 != 0) && ((tilePos - 5) >= 0) && tiles[tilePos - 5].isClosed) {
+    if(checkValidMove(tilePos, 2) && tiles[tilePos - 5].isClosed) {
       tiles[tilePos - 5].isClosed = false;
       if (tiles[tilePos - 5].value == 0)
         emptyField(tilePos - 5);
     }
     
     // tile diagonal down left
-    if((tilePos % 6 != 0) && ((tilePos + 5) < 36) && tiles[tilePos + 5].isClosed) {
+    if(checkValidMove(tilePos, 6) && tiles[tilePos + 5].isClosed) {
       tiles[tilePos + 5].isClosed = false;
       if (tiles[tilePos + 5].value == 0)
         emptyField(tilePos + 5);
     }
     
     // tile diagonal down right
-    if(((tilePos + 1) % 6 != 0) && ((tilePos + 7) < 36) && tiles[tilePos + 7].isClosed){
+    if(checkValidMove(tilePos, 4) && tiles[tilePos + 7].isClosed){
       tiles[tilePos + 7].isClosed = false;
       if (tiles[tilePos + 7].value == 0)
         emptyField(tilePos + 7);

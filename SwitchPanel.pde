@@ -27,19 +27,36 @@ class SwitchPanel {
     }
   }
   
+  void resetButtons() {
+    for (PanelButton but : buttons) {
+      but.switchOff();
+    }
+  }
+  
   void execute(BSField field) {
+    //println("TS arpos: " + field.tileSelected.arPos);
     if (buttons[0].on) {
       if (buttons[1].on) {
         if (buttons[2].on) {
           // show help menu
         }
         else {
-          field.tileSelected
-          // down
+          // up
+          if (field.checkValidMove(field.tileSelected.arPos, 1)) {
+            field.tileSelected.selected = false;
+            field.tileSelected = field.tiles[field.tileSelected.arPos + 6];
+            field.tileSelected.selected = true; 
+          }
         }
+      }
       else {
         if (buttons[2].on) {
           // right
+          if (field.checkValidMove(field.tileSelected.arPos, 3)) {
+            field.tileSelected.selected = false;
+            field.tileSelected = field.tiles[field.tileSelected.arPos + 1];
+            field.tileSelected.selected = true; 
+          }
         }
         else {
           // flag
@@ -50,13 +67,24 @@ class SwitchPanel {
       if (buttons[1].on) {
         if (buttons[2].on) {
           // left
+          if (field.checkValidMove(field.tileSelected.arPos, 7)) {
+            field.tileSelected.selected = false;
+            field.tileSelected = field.tiles[field.tileSelected.arPos - 1];
+            field.tileSelected.selected = true; 
+          }
         }
         else {
           // click
         }
+      }
       else {
         if (buttons[2].on) {
-          // up
+          // down
+          if (field.checkValidMove(field.tileSelected.arPos, 5)) {
+            field.tileSelected.selected = false;
+            field.tileSelected = field.tiles[field.tileSelected.arPos - 6];
+            field.tileSelected.selected = true; 
+          }
         }
       }
     }
