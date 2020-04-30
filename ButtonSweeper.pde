@@ -39,15 +39,69 @@ void draw() {
 
 void drawHelp() {
   help = true;
-  
   fill(80);
   rect(160, 70, 480, 480);
+  
+  textSize(20);
+  fill(0, 255, 0);
+  text("Help menu", 190, 100);
+  textSize(15);
+  text("Options:", 190, 125);
+  
+  //fill(255, 0, 0);
+  //rect(190, 150, 20, 20);
+  //fill(0);
+  //rect(220, 150, 20, 20);
+  //rect(250, 150, 20, 20);
+  //rect(280, 150, 20, 20);
+  
+  menuHelper(255, 0, 0, 190, 150);
+  menuHelper(0, 255, 0, 190, 195);
+  menuHelper(0, 0, 255, 190, 240);
+  menuHelper(255, 255, 0, 190, 285);
+  menuHelper(255, 0, 255, 190, 330);
+  menuHelper(0, 255, 255, 190, 375);
+  menuHelper(255, 255, 255, 190, 420);
+  
+  fill(70);
+  noStroke();
+  rect(190, 465, 20, 20);
+  rect(190+30, 465, 20, 20);
+  rect(190+60, 465, 20, 20);
+  fill(255, 0, 0);
+  stroke(0);
+  rect(190+90, 465, 20, 20);
+  
+  fill(0, 255, 0);
+  text("flag tile", 350, 165);
+  text("open tile", 350, 210);
+  text("go one tile up", 350, 255);
+  text("go one tile down", 350, 300);
+  text("go one tile to the right", 350, 345);
+  text("go one tile to the left", 350, 390);
+  text("help menu", 350, 435);
+  text("execute command", 350, 475);
+  text("(click this button to continue)", 350, 495);
+  
   panel.drawPanel();
   
   if (startTime + 700 < millis()) {
     startTime = millis();
     panel.buttons[3].toggle();
   }
+}
+
+void menuHelper(int col1, int col2, int col3, float x, float y) {
+  stroke(0);
+  fill(col1, 0, 0);
+  rect(x, y, 20, 20);
+  fill(col2, 0, 0);
+  rect(x+30, y, 20, 20);
+  fill(col3, 0, 0);
+  rect(x+60, y, 20, 20);
+  noStroke();
+  fill(70);
+  rect(x+90, y, 20, 20);  
 }
 
 void drawGame() {
@@ -113,9 +167,11 @@ void mousePressed() {
             panel.resetButtons();
             blink = false;
             firstTime = true;
-            gameState = 0;
+            gameState = 1;
           }
           else if (help) {
+            help = false;
+            panel.resetButtons();
             gameState = 1;
           }
           else {

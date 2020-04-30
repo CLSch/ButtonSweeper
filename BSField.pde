@@ -195,6 +195,21 @@ class BSField {
   }
   
   void drawField() {
+    
+    fill(200);
+    rect(160,30,80,40);
+    image(flagImg, 160, 30, 40, 40);
+    fill(50);
+    textSize(35);
+    text(str(flags), 210, 65);
+    
+    fill(200);
+    rect(560,30,80,40);
+    image(mineImg, 560, 30, 40, 40);
+    fill(50);
+    textSize(25);
+    text("x4", 605, 60);
+    
     for (BSTile tile : tiles) {
       fill(200);
       stroke(0);

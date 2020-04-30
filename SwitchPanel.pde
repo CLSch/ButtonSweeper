@@ -38,7 +38,7 @@ class SwitchPanel {
     if (buttons[0].on) {
       if (buttons[1].on) {
         if (buttons[2].on) {
-          // show help menu
+          gameState = 0;
         }
         else {
           // up
@@ -64,7 +64,7 @@ class SwitchPanel {
             field.flags++;
             field.tileSelected.hasFlag = !field.tileSelected.hasFlag;
           }
-          else if (field.flags > 0 ) {
+          else if (field.flags > 0 && field.tileSelected.isClosed) {
             field.flags--;
             field.tileSelected.hasFlag = !field.tileSelected.hasFlag;
           }
