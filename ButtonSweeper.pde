@@ -2,6 +2,7 @@
 minesweeper*/
 
 BSField field;
+SwitchPanel panel;
 PImage mineImg;
 int gameState;
 
@@ -9,6 +10,7 @@ void setup() {
   
   size(800,900);
   field = new BSField();
+  panel = new SwitchPanel();
   gameState = 0;
   mineImg = loadImage("bomb.png");
   println("start");
@@ -19,32 +21,8 @@ void draw() {
   if (gameState == 0) {
     //drawHelp();
     field.drawField();
-    fill(150);
-    rect(240, 600, 320, 250);
-    
-    // white square help
-    fill(255);
-    rect(260, 620, 50, 50);
-    
-    // black square select
-    fill(30);
-    rect(490, 780, 50, 50);
-    
-    // red square 
-    fill(255, 0, 0);
-    rect(260, 700, 50, 50);
-    
-    // yellow square
-    fill(255, 255, 0);
-    rect(330, 700, 50, 50);
-    
-    // blue square
-    fill(0, 0, 255);
-    rect(400, 700, 50, 50);
-    
-    // answer
-    fill(150);
-    rect(260, 780, 50, 50);
+    panel.drawPanel();
+  
   }
   else if (gameState == 1) {
     drawGame();
@@ -92,4 +70,26 @@ void mousePressed() {
     }
     tileArPos++;
   }
+  
+  for (PanelButton button : panel.buttons) {
+    if (mouseX > button.xPos && mouseX < (button.xPos + button.diam)) {
+      if (mouseY > button.yPos && mouseY < (button.yPos + button.diam)) {
+        if (button.isHelp) {
+          panel.getAnswerButton.setRGB(255,255,255);
+          panel.getAnswerButton.isEmpty = false;
+          // make answer white no matter what
+        }
+        else if (button.isSelect && !panel.getAnswerButton().isEmpty) { 
+          // check if color is selected to continue
+          // change something on the screen or screenstate
+          println("SELECTED");
+        }
+        else if (!button.isAnswer) {
+          // if tile is transparant or white, become that color, otherwise mix
+          // if mix already exists become that color
+        }
+      }
+    }
+  }
+  
 }
