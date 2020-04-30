@@ -44,7 +44,7 @@ class SwitchPanel {
           // up
           if (field.checkValidMove(field.tileSelected.arPos, 1)) {
             field.tileSelected.selected = false;
-            field.tileSelected = field.tiles[field.tileSelected.arPos + 6];
+            field.tileSelected = field.tiles[field.tileSelected.arPos - 6];
             field.tileSelected.selected = true; 
           }
         }
@@ -60,6 +60,14 @@ class SwitchPanel {
         }
         else {
           // flag
+          if (field.tileSelected.hasFlag) {
+            field.flags++;
+            field.tileSelected.hasFlag = !field.tileSelected.hasFlag;
+          }
+          else if (field.flags > 0 ) {
+            field.flags--;
+            field.tileSelected.hasFlag = !field.tileSelected.hasFlag;
+          }
         }
       }
     }
@@ -74,7 +82,19 @@ class SwitchPanel {
           }
         }
         else {
-          // click
+          //click
+          
+          println("click");
+          // flag fields can't be clicked
+          if (field.tileSelected.hasFlag)
+            return;
+          
+          field.tileSelected.isClosed = false;
+        
+          if (field.tileSelected.value == -1)
+            println("GameOver");
+          else if (field.tileSelected.value == 0)
+            field.emptyField(field.tileSelected.arPos);
         }
       }
       else {
@@ -82,15 +102,11 @@ class SwitchPanel {
           // down
           if (field.checkValidMove(field.tileSelected.arPos, 5)) {
             field.tileSelected.selected = false;
-            field.tileSelected = field.tiles[field.tileSelected.arPos - 6];
+            field.tileSelected = field.tiles[field.tileSelected.arPos + 6];
             field.tileSelected.selected = true; 
           }
         }
       }
     }
   }
-  
-  //PanelButton getAnswerButton() {
-  //  return buttons[5];
-  //}
 }

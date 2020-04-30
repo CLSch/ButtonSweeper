@@ -15,7 +15,3 @@ class BSTile{
     arPos = _arp;
   }
 }
-
-// value = 0 if no other tiles are near
-// value = 1-6 amount of mine
-// value = -1 if bomb

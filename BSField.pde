@@ -5,6 +5,7 @@ class BSField {
   final int NUMMINES = 4;
   BSTile tiles[] = new BSTile[NUMTILES];
   BSTile tileSelected;
+  int flags = 4;
   //int mines[] = new int [4];
   
   BSField() {
@@ -44,7 +45,7 @@ class BSField {
     }
     // tile up
     if (direction == 1) {
-      if ((tilePos + 6) < 36)
+      if ((tilePos - 6) >= 0)
         return true;
     }
     // tile right up
@@ -64,9 +65,7 @@ class BSField {
     }
     // tile down
     if (direction == 5) {
-      if ((tilePos - 6) >= 0) {
-        println("tilePos: " + tilePos);
-        println("in down");
+      if ((tilePos + 6) < 36) {
         return true;
       }
     }
@@ -88,10 +87,10 @@ class BSField {
     // add values to tiles 
         
     // tile down 
-    if((checkValidMove(minePos, 5)) && (tiles[minePos - 6].value != -1))
+    if((checkValidMove(minePos, 1)) && (tiles[minePos - 6].value != -1))
       tiles[minePos - 6].value++;
     // tile up
-    if((checkValidMove(minePos, 1)) && (tiles[minePos + 6].value != -1))
+    if((checkValidMove(minePos, 5)) && (tiles[minePos + 6].value != -1))
       tiles[minePos + 6].value++;
     // tile right
     if((checkValidMove(minePos, 3)) && (tiles[minePos + 1].value != -1))
@@ -176,9 +175,14 @@ class BSField {
       stroke(0);
       strokeWeight(1);
       rect(tile.xPos, tile.yPos, tile.diam, tile.diam);
+      
+      if (tile.isClosed && tile.hasFlag)
+        image(flagImg, tile.xPos, tile.yPos, tile.diam, tile.diam);
+      
       if (!tile.isClosed) {
         fill(150);
         rect(tile.xPos, tile.yPos, tile.diam, tile.diam);
+        // mine
         if (tile.value == -1) {
           image(mineImg, tile.xPos, tile.yPos, tile.diam, tile.diam);
         }
