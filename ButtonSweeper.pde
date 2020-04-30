@@ -8,6 +8,9 @@ PImage flagImg;
 int gameState;
 int startTime;
 boolean gamePause;
+int test = 0;
+boolean firstTime = true;
+boolean blink = false;
 
 void setup() {
   
@@ -23,7 +26,8 @@ void setup() {
 void draw() {
   background(50);
   if (gameState == 0)
-    drawHelp();
+    //drawHelp();
+    drawWin();
   else if (gameState == 1)
     drawGame();
   else if (gameState == 2)
@@ -40,7 +44,7 @@ void drawHelp() {
   rect(160, 70, 480, 480);
   panel.drawPanel();
   
-  if (startTime + 500 < millis()) {
+  if (startTime + 700 < millis()) {
     startTime = millis();
     panel.buttons[3].toggle();
   }
@@ -61,7 +65,7 @@ void drawLose() {
   field.drawField();
   panel.drawPanel();
   
-  if (startTime + 500 < millis()) {
+  if (startTime + 700 < millis()) {
     startTime = millis();
     panel.buttons[3].toggle();
   }
@@ -71,12 +75,26 @@ void drawWin() {
   gamePause = true;
   field.drawField();
   panel.drawPanel();
-  
-  if (startTime + 500 < millis()) {
+  if (firstTime){
+    panel.buttons[test].toggle();
+    firstTime = false;
+  }
+  if (!blink && startTime + 100 < millis()) {   
+    if (test < 11) {
+      panel.buttons[test%4].toggle();
+      panel.buttons[(test+1)%4].toggle();
+      test++;
+      startTime = millis();
+    }
+    else {
+      blink = true;
+    }
+  }
+  if (blink && startTime + 700 < millis()) {
     startTime = millis();
     panel.buttons[3].toggle();
   }
-  // create heart?
+
   // laat selectie button knipperen?
   // selectie is nieuw spel reset alles
   // gameState = 1
@@ -91,7 +109,7 @@ void mousePressed() {
             // reset everything
             field.resetField();
             panel.resetButtons();
-            gameState = 1;
+            gameState = 0;
           }
           panel.execute(field);
           panel.resetButtons();
