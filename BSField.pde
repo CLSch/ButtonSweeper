@@ -4,6 +4,7 @@ class BSField {
   final int NUMTILES = 36;
   final int NUMMINES = 4;
   BSTile tiles[] = new BSTile[NUMTILES];
+  BSTile tileSelected;
   //int mines[] = new int [4];
   
   BSField() {
@@ -18,7 +19,8 @@ class BSField {
     
     placeMines();
     // put selection on first tile
-    tiles[0].selected = true;
+    tileSelected = tiles[0];
+    tileSelected.selected = true;
   }
   
   void placeMines() {
@@ -32,6 +34,33 @@ class BSField {
       placeValues(ran);
     } 
   }
+  
+  //void checkValidMove() {
+  //  if(((minePos - 6) >= 0) && (tiles[minePos - 6].value != -1))
+  //    tiles[minePos - 6].value++;
+  //  // tile down
+  //  if(((minePos + 6) < 36) && (tiles[minePos + 6].value != -1))
+  //    tiles[minePos + 6].value++;
+  //  // tile right
+  //  if(((minePos + 1) % 6 != 0) && (tiles[minePos + 1].value != -1))
+  //    tiles[minePos + 1].value++;
+  //  // tile left
+  //  if((minePos % 6 != 0) && (tiles[minePos - 1].value != -1))
+  //    tiles[minePos - 1].value++;
+  //  // tile diagonal up left
+  //  if((minePos % 6 != 0) && ((minePos - 7) >= 0) && (tiles[minePos - 7].value != -1))
+  //    tiles[minePos - 7].value++;
+  //  // tile diagonal up right
+  //  if(((minePos + 1) % 6 != 0) && ((minePos - 5) >= 0) && (tiles[minePos - 5].value != -1))
+  //    tiles[minePos - 5].value++;
+  //  // tile diagonal down left
+  //  if((minePos % 6 != 0) && ((minePos + 5) < 36) && (tiles[minePos + 5].value != -1))  
+  //    tiles[minePos + 5].value++;
+  //  // tile diagonal down right
+  //  if(((minePos + 1) % 6 != 0) && ((minePos + 7) < 36) && (tiles[minePos + 7].value != -1))
+  //    tiles[minePos + 7].value++;
+  //}
+  
   
   void placeValues(int minePos) {
     //for (int i = 0; i < tileAmount; i++) {

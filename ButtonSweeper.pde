@@ -74,22 +74,11 @@ void mousePressed() {
   for (PanelButton button : panel.buttons) {
     if (mouseX > button.xPos && mouseX < (button.xPos + button.diam)) {
       if (mouseY > button.yPos && mouseY < (button.yPos + button.diam)) {
-        if (button.isHelp) {
-          panel.getAnswerButton.setRGB(255,255,255);
-          panel.getAnswerButton.isEmpty = false;
-          // make answer white no matter what
-        }
-        else if (button.isSelect && !panel.getAnswerButton().isEmpty) { 
-          // check if color is selected to continue
-          // change something on the screen or screenstate
-          println("SELECTED");
-        }
-        else if (!button.isAnswer) {
-          // if tile is transparant or white, become that color, otherwise mix
-          // if mix already exists become that color
-        }
+        if (button.id == 4)
+          panel.execute(field);
+        else
+          button.toggle();
       }
     }
   }
-  
 }

@@ -2,20 +2,19 @@
 
 class SwitchPanel {
   PanelButton[] buttons;
-  float xPos = 240;
-  float yPos = 600;
-  float wWidth = 320;
-  float hHeight = 250;
+  float xPos = 160;
+  float yPos = 650;
+  float wWidth = 480;
+  float hHeight = 150;
   int cColor = 150;
   
   SwitchPanel() {
-    PanelButton whiteB = new PanelButton(255, 255, 255, 260, 620);
-    PanelButton blackB = new PanelButton(30, 30, 30, 490, 780);
-    PanelButton redB = new PanelButton(255, 0, 0, 260, 700);
-    PanelButton yellowB = new PanelButton(255, 255, 0, 330, 700);
-    PanelButton blueB = new PanelButton(0, 0, 255, 400, 700);
-    PanelButton answerB = new PanelButton(150, 150, 150, 260, 780);
-    PanelButton[] buttonsTemp = {whiteB, redB, yellowB, blueB, answerB, blackB};
+    //PanelButton helpB = new PanelButton(0, 700, 0);
+    PanelButton firstB = new PanelButton(215, 700, 1);
+    PanelButton secondB = new PanelButton(320, 700, 2);
+    PanelButton thirdB = new PanelButton(425, 700, 3);
+    PanelButton selectB = new PanelButton(530, 700, 4);
+    PanelButton[] buttonsTemp = {firstB, secondB, thirdB, selectB};
     buttons = buttonsTemp;
   }
   
@@ -28,7 +27,42 @@ class SwitchPanel {
     }
   }
   
-  PanelButton getAnswerButton() {
-    return buttons[5];
+  void execute(BSField field) {
+    if (buttons[0].on) {
+      if (buttons[1].on) {
+        if (buttons[2].on) {
+          // show help menu
+        }
+        else {
+          field.tileSelected
+          // down
+        }
+      else {
+        if (buttons[2].on) {
+          // right
+        }
+        else {
+          // flag
+        }
+      }
+    }
+    else {
+      if (buttons[1].on) {
+        if (buttons[2].on) {
+          // left
+        }
+        else {
+          // click
+        }
+      else {
+        if (buttons[2].on) {
+          // up
+        }
+      }
+    }
   }
+  
+  //PanelButton getAnswerButton() {
+  //  return buttons[5];
+  //}
 }

@@ -1,42 +1,40 @@
 /* panel buttons*/
 
 class PanelButton {
-  int reds, greens, blues;
+  int id;
+  int redVal = 0;
   float xPos, yPos;
   float diam = 50;
-  boolean isHelp = false;
-  boolean isSelect = false;
-  boolean isAnswer = false;
-  boolean isEmpty = false;
+  boolean on = false;
   
-  PanelButton(int _r, int _g, int _b, float _x, float _y) {
-    reds = _r;
-    greens = _g;
-    blues = _b;
+  PanelButton(float _x, float _y, int _id) {
     xPos = _x;
     yPos = _y; 
-    
-    initType();
+    id = _id;
+    //initType();
   }
   
   void drawButton() {
-    fill(reds, greens, blues);
+    fill(redVal, 0, 0);
     rect(xPos, yPos, diam, diam);
   }
   
-  void setRGB(int r, int g, int b) {
-    reds = r;
-    greens = g;
-    blues = b;
+  void toggle() {
+    redVal = 0;
+    
+    if (!on)
+      redVal = 255;
+         
+    on = !on;
   }
   
-  void initType() {
-    if (reds == 255 && greens == 255 && blues == 255) 
-      isHelp = true;
-    else if (reds == 30 && greens == 30 && blues == 30)
-      isSelect = true;
-    else if (reds == 150 && greens == 150 && blues == 150)
-      isAnswer = true;
-      isEmpty = true;
-  }
+  //void initType() {
+  //  if (reds == 255 && greens == 255 && blues == 255) 
+  //    isHelp = true;
+  //  else if (reds == 30 && greens == 30 && blues == 30)
+  //    isSelect = true;
+  //  else if (reds == 150 && greens == 150 && blues == 150)
+  //    isAnswer = true;
+  //    isEmpty = true;
+  //}
 }
