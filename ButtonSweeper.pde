@@ -6,6 +6,8 @@ SwitchPanel panel;
 PImage mineImg;
 PImage flagImg;
 int gameState;
+int startTime;
+boolean gamePause;
 
 void setup() {
   
@@ -15,72 +17,86 @@ void setup() {
   gameState = 0;
   mineImg = loadImage("bomb.png");
   flagImg = loadImage("flag.png");
-  println("start");
+  startTime = millis();
 }
 
 void draw() {
   background(50);
-  if (gameState == 0) {
-    //drawHelp();
-    field.drawField();
-    panel.drawPanel();
-  
-  }
-  else if (gameState == 1) {
+  if (gameState == 0)
+    drawHelp();
+  else if (gameState == 1)
     drawGame();
-  }
-  else if (gameState == 2) {
+  else if (gameState == 2)
     drawLose();
-  }
-  else if (gameState == 3) {
+  else if (gameState == 3)
     drawWin();
-  }
-  
-  
 }
 
-void drawStart() {
+void drawHelp() {
+  //gameState++;
+  gamePause = true;
+  
+  fill(80);
+  rect(160, 70, 480, 480);
+  panel.drawPanel();
+  
+  if (startTime + 500 < millis()) {
+    startTime = millis();
+    panel.buttons[3].toggle();
+  }
 }
 
 void drawGame() {
+  gamePause = false;
   field.drawField();
-  
-  fill(150);
-  rect(160, 600, 480, 250);
+  panel.drawPanel();
 }
 
 void drawLose() {
+  // draw cross
+  // laat selectie button knipperen?
+  // selectie is nieuw spel reset alles
+  // gameState = 1
+  gamePause = true;
+  field.drawField();
+  panel.drawPanel();
+  
+  if (startTime + 500 < millis()) {
+    startTime = millis();
+    panel.buttons[3].toggle();
+  }
 }
 
 void drawWin() {
+  gamePause = true;
+  field.drawField();
+  panel.drawPanel();
+  
+  if (startTime + 500 < millis()) {
+    startTime = millis();
+    panel.buttons[3].toggle();
+  }
+  // create heart?
+  // laat selectie button knipperen?
+  // selectie is nieuw spel reset alles
+  // gameState = 1
 }
 
-void mousePressed() {
-  //int tileArPos = 0;
-  //for (BSTile tile : field.tiles) {
-  //  if (mouseX > tile.xPos && mouseX < (tile.xPos + tile.diam)) {
-  //    if (mouseY > tile.yPos && mouseY < (tile.yPos + tile.diam)) {
-  //      tile.isClosed = false;
-  //      println(tile.arPos);
-        
-  //      if (tile.value == -1)
-  //        // this check needs to be in the drawfield func
-  //        println("MINE!");
-  //      else if (tile.value == 0)
-  //        field.emptyField(tile.arPos);
-  //    }
-  //  }
-  //  //tileArPos++;
-  //}
-  
+void mousePressed() {  
   for (PanelButton button : panel.buttons) {
     if (mouseX > button.xPos && mouseX < (button.xPos + button.diam)) {
       if (mouseY > button.yPos && mouseY < (button.yPos + button.diam)) {
         if (button.id == 4) {
+          if (gamePause) {
+            // reset everything
+            field.resetField();
+            panel.resetButtons();
+            gameState = 1;
+          }
           panel.execute(field);
           panel.resetButtons();
         }
-        else {
+        else if (!gamePause){
           button.toggle();
         }
       }

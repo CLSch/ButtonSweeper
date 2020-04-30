@@ -83,18 +83,23 @@ class SwitchPanel {
         }
         else {
           //click
-          
-          println("click");
+
           // flag fields can't be clicked
           if (field.tileSelected.hasFlag)
             return;
           
           field.tileSelected.isClosed = false;
+          field.openTiles++;
         
-          if (field.tileSelected.value == -1)
-            println("GameOver");
+          if (field.tileSelected.value == -1) 
+            gameState = 2;
           else if (field.tileSelected.value == 0)
             field.emptyField(field.tileSelected.arPos);
+            
+          if (field.openTiles == 32) {
+            println("YOU WON");
+            gameState = 3;
+          }
         }
       }
       else {

@@ -6,6 +6,7 @@ class BSField {
   BSTile tiles[] = new BSTile[NUMTILES];
   BSTile tileSelected;
   int flags = 4;
+  int openTiles = 0;
   //int mines[] = new int [4];
   
   BSField() {
@@ -34,6 +35,22 @@ class BSField {
       tiles[ran].value = -1;
       placeValues(ran);
     } 
+  }
+  
+  void resetField() {
+    for (BSTile tile : tiles) {
+      tile.value = 0;
+      tile.hasFlag = false;
+      tile.isClosed = true;
+      tile.selected = false;
+    }
+    placeMines();
+    // put selection on first tile
+    tileSelected = tiles[0];
+    tileSelected.selected = true;
+    
+    flags = 4;
+    openTiles = 0;
   }
   
   // direction: 0 = up left, 1 = up 2 = up right, 3 = right, 4 = right bottom, 5 = bottom, 6 = bottom left, 7 = left
@@ -116,12 +133,14 @@ class BSField {
     // tile up 
     if(checkValidMove(tilePos, 1) && tiles[tilePos - 6].isClosed) {
       tiles[tilePos - 6].isClosed = false;
+      openTiles++;
       if (tiles[tilePos - 6].value == 0)
         emptyField(tilePos - 6);
     }
     // tile down
     if(checkValidMove(tilePos, 5) && tiles[tilePos + 6].isClosed) {
       tiles[tilePos + 6].isClosed = false;
+      openTiles++;
       if (tiles[tilePos + 6].value == 0)
         emptyField(tilePos + 6);
     }
@@ -129,6 +148,7 @@ class BSField {
     // tile right
     if(checkValidMove(tilePos, 3) && tiles[tilePos + 1].isClosed) {
       tiles[tilePos + 1].isClosed = false;
+      openTiles++;
       if (tiles[tilePos + 1].value == 0)
         emptyField(tilePos + 1);
     }
@@ -136,6 +156,7 @@ class BSField {
     // tile left
     if(checkValidMove(tilePos, 7) && tiles[tilePos - 1].isClosed) {
       tiles[tilePos - 1].isClosed = false;
+      openTiles++;
       if (tiles[tilePos - 1].value == 0)
         emptyField(tilePos - 1);
     }
@@ -143,6 +164,7 @@ class BSField {
     // tile diagonal up left
     if(checkValidMove(tilePos, 0) && tiles[tilePos - 7].isClosed) {
       tiles[tilePos - 7].isClosed = false;
+      openTiles++;
       if (tiles[tilePos - 7].value == 0)
         emptyField(tilePos - 7);
     }
@@ -150,6 +172,7 @@ class BSField {
     // tile diagonal up right
     if(checkValidMove(tilePos, 2) && tiles[tilePos - 5].isClosed) {
       tiles[tilePos - 5].isClosed = false;
+      openTiles++;
       if (tiles[tilePos - 5].value == 0)
         emptyField(tilePos - 5);
     }
@@ -157,6 +180,7 @@ class BSField {
     // tile diagonal down left
     if(checkValidMove(tilePos, 6) && tiles[tilePos + 5].isClosed) {
       tiles[tilePos + 5].isClosed = false;
+      openTiles++;
       if (tiles[tilePos + 5].value == 0)
         emptyField(tilePos + 5);
     }
@@ -164,6 +188,7 @@ class BSField {
     // tile diagonal down right
     if(checkValidMove(tilePos, 4) && tiles[tilePos + 7].isClosed){
       tiles[tilePos + 7].isClosed = false;
+      openTiles++;
       if (tiles[tilePos + 7].value == 0)
         emptyField(tilePos + 7);
     }
