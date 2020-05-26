@@ -1,6 +1,6 @@
-/*main
+/* main class
 
-Main class for the ButtonSweeper project.
+**ButtonSweeper was made as part of an assignment for the New Media and New Technologies course at Leiden University.**
 
 Minesweeper game where the user can make moves by pressing (clicking) buttons in the panel under the minesweeper field.
 Help menu will show the possible options for executing code and playing the game.
