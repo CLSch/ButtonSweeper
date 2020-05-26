@@ -1,4 +1,9 @@
-/* switch panel*/
+/* switch panel
+
+   contains the panel position, height and width and color and four
+   button objects.
+
+*/
 
 class SwitchPanel {
   PanelButton[] buttons;
@@ -8,8 +13,8 @@ class SwitchPanel {
   float hHeight = 150;
   int cColor = 150;
   
+  // initialize panel, create 4 button objects and put them in an array
   SwitchPanel() {
-    //PanelButton helpB = new PanelButton(0, 700, 0);
     PanelButton firstB = new PanelButton(215, 700, 1);
     PanelButton secondB = new PanelButton(320, 700, 2);
     PanelButton thirdB = new PanelButton(425, 700, 3);
@@ -18,6 +23,7 @@ class SwitchPanel {
     buttons = buttonsTemp;
   }
   
+  /* draw the panel with all the buttons */
   void drawPanel() {
     fill(cColor);
     rect(xPos, yPos, wWidth, hHeight);
@@ -27,21 +33,32 @@ class SwitchPanel {
     }
   }
   
+  /* reset all the existing buttons (turn off) */
   void resetButtons() {
     for (PanelButton but : buttons) {
       but.switchOff();
     }
   }
   
+  /* execute the 'code' the user wrote on the panel (with buttons) 
+     o = on, x = off
+     (if valid:)
+     ooo = help menu
+     oox = move selection up
+     oxo = move selection right
+     oxx = put/remove flag on tile
+     xoo = move selection left
+     xox = open selected tile
+     xxo = move selection down
+     */
   void execute(BSField field) {
-    //println("TS arpos: " + field.tileSelected.arPos);
     if (buttons[0].on) {
       if (buttons[1].on) {
         if (buttons[2].on) {
           gameState = 0;
         }
         else {
-          // up
+          // up, oox 
           if (field.checkValidMove(field.tileSelected.arPos, 1)) {
             field.tileSelected.selected = false;
             field.tileSelected = field.tiles[field.tileSelected.arPos - 6];
@@ -51,7 +68,7 @@ class SwitchPanel {
       }
       else {
         if (buttons[2].on) {
-          // right
+          // right, oxo
           if (field.checkValidMove(field.tileSelected.arPos, 3)) {
             field.tileSelected.selected = false;
             field.tileSelected = field.tiles[field.tileSelected.arPos + 1];
@@ -59,7 +76,7 @@ class SwitchPanel {
           }
         }
         else {
-          // flag
+          // flag, oxx
           if (field.tileSelected.hasFlag) {
             field.flags++;
             field.tileSelected.hasFlag = !field.tileSelected.hasFlag;
@@ -74,7 +91,7 @@ class SwitchPanel {
     else {
       if (buttons[1].on) {
         if (buttons[2].on) {
-          // left
+          // left, xoo
           if (field.checkValidMove(field.tileSelected.arPos, 7)) {
             field.tileSelected.selected = false;
             field.tileSelected = field.tiles[field.tileSelected.arPos - 1];
@@ -82,7 +99,7 @@ class SwitchPanel {
           }
         }
         else {
-          //click
+          //open, xox
 
           // flag fields can't be clicked
           if (field.tileSelected.hasFlag)
@@ -97,14 +114,13 @@ class SwitchPanel {
             field.emptyField(field.tileSelected.arPos);
             
           if (field.openTiles == 32) {
-            println("YOU WON");
             gameState = 3;
           }
         }
       }
       else {
         if (buttons[2].on) {
-          // down
+          // down, xxo
           if (field.checkValidMove(field.tileSelected.arPos, 5)) {
             field.tileSelected.selected = false;
             field.tileSelected = field.tiles[field.tileSelected.arPos + 6];

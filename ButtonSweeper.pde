@@ -1,4 +1,7 @@
 /*main
+
+
+
 minesweeper*/
 
 BSField field;
@@ -11,8 +14,10 @@ boolean gamePause, blink, firstTime, help;
 int curBut = 0;
 
 void setup() {
-  
+  // size of screen
   size(800,900);
+  
+  // initialisation
   field = new BSField();
   panel = new SwitchPanel();
   gameState = 0;
@@ -25,6 +30,7 @@ void setup() {
   help = false;
 }
 
+/* draw screen features based on screen state */
 void draw() {
   background(50);
   if (gameState == 0)
@@ -37,6 +43,7 @@ void draw() {
     drawWin();
 }
 
+/* draw the help menu */
 void drawHelp() {
   help = true;
   fill(80);
@@ -47,13 +54,6 @@ void drawHelp() {
   text("Help menu", 190, 100);
   textSize(15);
   text("Options:", 190, 125);
-  
-  //fill(255, 0, 0);
-  //rect(190, 150, 20, 20);
-  //fill(0);
-  //rect(220, 150, 20, 20);
-  //rect(250, 150, 20, 20);
-  //rect(280, 150, 20, 20);
   
   menuHelper(255, 0, 0, 190, 150);
   menuHelper(0, 255, 0, 190, 195);
@@ -91,6 +91,7 @@ void drawHelp() {
   }
 }
 
+/* helper for drawing the examples of buttons */
 void menuHelper(int col1, int col2, int col3, float x, float y) {
   stroke(0);
   fill(col1, 0, 0);
@@ -104,6 +105,7 @@ void menuHelper(int col1, int col2, int col3, float x, float y) {
   rect(x+90, y, 20, 20);  
 }
 
+/* draw the field */
 void drawGame() {
   gamePause = false;
   field.drawField();
@@ -156,6 +158,7 @@ void drawWin() {
   // gameState = 1
 }
 
+/* if a button is clicked, turn it on/off and/or execute the 'code' */
 void mousePressed() {  
   for (PanelButton button : panel.buttons) {
     if (mouseX > button.xPos && mouseX < (button.xPos + button.diam)) {

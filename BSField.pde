@@ -1,4 +1,9 @@
-/* minesweeper field*/
+/* minesweeper field
+
+ Does all the calculations on the field
+ Contains 36 BSTile objects
+
+*/
 
 class BSField {
   final int NUMTILES = 36;
@@ -7,7 +12,6 @@ class BSField {
   BSTile tileSelected;
   int flags = 4;
   int openTiles = 0;
-  //int mines[] = new int [4];
   
   BSField() {
     //initialize tiles
@@ -25,6 +29,7 @@ class BSField {
     tileSelected.selected = true;
   }
   
+  /* randomly place 4 mines in the field */
   void placeMines() {
     // place all mines
     for (int i = 0; i < NUMMINES; i++) {
@@ -37,6 +42,7 @@ class BSField {
     } 
   }
   
+  /* reset the field and create 4 new mines */
   void resetField() {
     for (BSTile tile : tiles) {
       tile.value = 0;
@@ -53,7 +59,8 @@ class BSField {
     openTiles = 0;
   }
   
-  // direction: 0 = up left, 1 = up 2 = up right, 3 = right, 4 = right bottom, 5 = bottom, 6 = bottom left, 7 = left
+  /* helper function to see which tiles surround a selected tile.
+     direction: 0 = up left, 1 = up 2 = up right, 3 = right, 4 = right bottom, 5 = bottom, 6 = bottom left, 7 = left */
   boolean checkValidMove(int tilePos, int direction) {
     // tile left up
     if (direction == 0) {
@@ -96,10 +103,11 @@ class BSField {
       if (tilePos % 6 != 0)
         return true;
     }
+    // error
     return false;
   }
   
-  
+  /* if */
   void placeValues(int minePos) {
     // add values to tiles 
         
@@ -129,6 +137,9 @@ class BSField {
       tiles[minePos + 7].value++;
   }
   
+  /* If a field that has no mines next to it, open it and do the same thing for the 
+  surrounding fields. If every empty field has open surrounding tiles, stop. 
+  input is the starting tile position (0 - 35)*/
   void emptyField(int tilePos){
     // tile up 
     if(checkValidMove(tilePos, 1) && tiles[tilePos - 6].isClosed) {
@@ -194,8 +205,10 @@ class BSField {
     }
   }
   
+  /* */
   void drawField() {
     
+    // show amount of flags on screen
     fill(200);
     rect(160,30,80,40);
     image(flagImg, 160, 30, 40, 40);
@@ -203,6 +216,7 @@ class BSField {
     textSize(35);
     text(str(flags), 210, 65);
     
+    // show amount of mines on screen
     fill(200);
     rect(560,30,80,40);
     image(mineImg, 560, 30, 40, 40);
@@ -210,15 +224,18 @@ class BSField {
     textSize(25);
     text("x4", 605, 60);
     
+    
     for (BSTile tile : tiles) {
       fill(200);
       stroke(0);
       strokeWeight(1);
       rect(tile.xPos, tile.yPos, tile.diam, tile.diam);
       
+      // draw a flag on a tile
       if (tile.isClosed && tile.hasFlag)
         image(flagImg, tile.xPos, tile.yPos, tile.diam, tile.diam);
       
+      // draw open tile with the right number or draw mine
       if (!tile.isClosed) {
         fill(150);
         rect(tile.xPos, tile.yPos, tile.diam, tile.diam);
@@ -226,21 +243,27 @@ class BSField {
         if (tile.value == -1) {
           image(mineImg, tile.xPos, tile.yPos, tile.diam, tile.diam);
         }
+        // draw number
         else if (tile.value > 0) {
           fill(255);
           textSize(50);
-          // why this x and y???
+          // why this x and y??? TODO
           text(str(tile.value), tile.xPos+25, tile.yPos+60);
         }
       }
-       // draw selection
+       // selection tile
       if (tile.selected) {
       strokeWeight(5);
       stroke(255, 0, 0);
-      // make transparant
+      
       noFill();
-      // make sure stroke is insight square
+      // make sure stroke is inside square
       rect(tile.xPos + 3, tile.yPos + 3, tile.diam - 5, tile.diam - 5);
+      
+      // make sure stroke is back to default values for other draw functions
+      fill(200);
+      stroke(0);
+      strokeWeight(1);      
       }
     }
   }

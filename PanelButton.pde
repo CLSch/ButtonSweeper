@@ -1,4 +1,8 @@
-/* panel buttons*/
+/* panel buttons
+
+  panel buttons have a unique id, color (depending on their state), state (on/off),
+  position and diameter
+*/
 
 class PanelButton {
   int id;
@@ -13,11 +17,13 @@ class PanelButton {
     id = _id;
   }
   
+  /* draw a button that's red when on and black when off*/
   void drawButton() {
     fill(redVal, 0, 0);
     rect(xPos, yPos, diam, diam);
   }
   
+  /* change redVal to red or black depending on current state*/
   void toggle() {
     redVal = 0;
     
@@ -27,6 +33,7 @@ class PanelButton {
     on = !on;
   }
   
+  /* useful for resetting, turn button off and make the button black */
   void switchOff() {
     redVal = 0;
     on = false;
