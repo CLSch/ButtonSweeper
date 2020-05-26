@@ -1,8 +1,10 @@
 /* switch panel
 
-   contains the panel position, height and width and color and four
+   Contains the panel position, height and width and color and four
    button objects.
-
+   
+   Makes sure the panel including buttons is drawn on the screen.
+   Contains the logic for the execution of panel code.
 */
 
 class SwitchPanel {
@@ -52,6 +54,7 @@ class SwitchPanel {
      xxo = move selection down
      */
   void execute(BSField field) {
+    // up, down, left, right change the selected tile
     if (buttons[0].on) {
       if (buttons[1].on) {
         if (buttons[2].on) {
@@ -101,19 +104,22 @@ class SwitchPanel {
         else {
           //open, xox
 
-          // flag fields can't be clicked
+          // flag fields can't be opened
           if (field.tileSelected.hasFlag)
             return;
           
           field.tileSelected.isClosed = false;
           field.openTiles++;
         
+          // if a tile contains a mine, change to 'game lose state'
           if (field.tileSelected.value == -1) 
             gameState = 2;
+          // if a tile has no surrounding mines, open more tiles
           else if (field.tileSelected.value == 0)
             field.emptyField(field.tileSelected.arPos);
-            
-          if (field.openTiles == 32) {
+          
+          // if the tile was the last open tile that wasn't a mine, change to 'game win state'
+          if (field.openTiles == 32 && field.tileSelected.value == -1) {
             gameState = 3;
           }
         }

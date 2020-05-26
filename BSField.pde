@@ -1,7 +1,9 @@
 /* minesweeper field
 
- Does all the calculations on the field
- Contains 36 BSTile objects
+ Does all the calculations on the field and contains 36 BSTile objects.
+ 
+ Initialises minesweeper field and draws the field.
+ Contains logic for checking validity of user execution code and 
 
 */
 
@@ -29,7 +31,7 @@ class BSField {
     tileSelected.selected = true;
   }
   
-  /* randomly place 4 mines in the field */
+  /* Randomly place 4 mines in the field */
   void placeMines() {
     // place all mines
     for (int i = 0; i < NUMMINES; i++) {
@@ -42,7 +44,7 @@ class BSField {
     } 
   }
   
-  /* reset the field and create 4 new mines */
+  /* Reset the field and create 4 new mines */
   void resetField() {
     for (BSTile tile : tiles) {
       tile.value = 0;
@@ -59,8 +61,8 @@ class BSField {
     openTiles = 0;
   }
   
-  /* helper function to see which tiles surround a selected tile.
-     direction: 0 = up left, 1 = up 2 = up right, 3 = right, 4 = right bottom, 5 = bottom, 6 = bottom left, 7 = left */
+  /* Helper function for placing values and opening empty fields, to see which tiles surround a selected tile.
+  direction: 0 = up left, 1 = up 2 = up right, 3 = right, 4 = right bottom, 5 = bottom, 6 = bottom left, 7 = left */
   boolean checkValidMove(int tilePos, int direction) {
     // tile left up
     if (direction == 0) {
@@ -103,14 +105,13 @@ class BSField {
       if (tilePos % 6 != 0)
         return true;
     }
-    // error
+    // if tile doesn't exist
     return false;
   }
   
-  /* if */
-  void placeValues(int minePos) {
-    // add values to tiles 
-        
+  /* Increment the value of all tiles surrounding a mine
+  is used for the initialisation of the field */
+  void placeValues(int minePos) {   
     // tile down 
     if((checkValidMove(minePos, 1)) && (tiles[minePos - 6].value != -1))
       tiles[minePos - 6].value++;
@@ -205,7 +206,7 @@ class BSField {
     }
   }
   
-  /* */
+  /* Draw the field*/
   void drawField() {
     
     // show amount of flags on screen
@@ -247,7 +248,7 @@ class BSField {
         else if (tile.value > 0) {
           fill(255);
           textSize(50);
-          // why this x and y??? TODO
+          // x and y are approx. middle of tile
           text(str(tile.value), tile.xPos+25, tile.yPos+60);
         }
       }

@@ -1,7 +1,10 @@
 /* panel buttons
 
-  panel buttons have a unique id, color (depending on their state), state (on/off),
-  position and diameter
+  Panel buttons have a unique id, color (depending on their state), state (on/off),
+  position and diameter.
+  
+  Buttons can be toggled on/off.
+  Contains the button draw function, used in the SwitchPanel class to draw the whole panel.
 */
 
 class PanelButton {

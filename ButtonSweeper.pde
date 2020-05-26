@@ -1,8 +1,14 @@
 /*main
 
+Main class for the ButtonSweeper project.
 
+Minesweeper game where the user can make moves by pressing (clicking) buttons in the panel under the minesweeper field.
+Help menu will show the possible options for executing code and playing the game.
 
-minesweeper*/
+Contains 4 screen states for minesweeper game, winning the game, losing the game and the help menu.
+Contains logic for clicking on the buttons on the screen.
+
+*/
 
 BSField field;
 SwitchPanel panel;
@@ -55,6 +61,7 @@ void drawHelp() {
   textSize(15);
   text("Options:", 190, 125);
   
+  // draw buttons for the examples
   menuHelper(255, 0, 0, 190, 150);
   menuHelper(0, 255, 0, 190, 195);
   menuHelper(0, 0, 255, 190, 240);
@@ -63,6 +70,7 @@ void drawHelp() {
   menuHelper(0, 255, 255, 190, 375);
   menuHelper(255, 255, 255, 190, 420);
   
+  // draw last button example (execution)
   fill(70);
   noStroke();
   rect(190, 465, 20, 20);
@@ -85,6 +93,7 @@ void drawHelp() {
   
   panel.drawPanel();
   
+  // let selection button blink
   if (startTime + 700 < millis()) {
     startTime = millis();
     panel.buttons[3].toggle();
@@ -112,29 +121,31 @@ void drawGame() {
   panel.drawPanel();
 }
 
+/* make sure user can't change minesweeper field and let selection button blink to signal end of game */
 void drawLose() {
-  // draw cross
-  // laat selectie button knipperen?
-  // selectie is nieuw spel reset alles
-  // gameState = 1
   gamePause = true;
   field.drawField();
   panel.drawPanel();
   
+  // let the selection button blink
   if (startTime + 700 < millis()) {
     startTime = millis();
     panel.buttons[3].toggle();
   }
 }
 
+/* show celebritory button blinking,
+make sure user can't change minesweeper field and let selection button blink to signal end of game */
 void drawWin() {
   gamePause = true;
   field.drawField();
   panel.drawPanel();
+  // start celebritory blinking sequence
   if (firstTime){
     panel.buttons[curBut].toggle();
     firstTime = false;
   }
+  // wait for the next celebritory button to blink
   if (!blink && startTime + 100 < millis()) {   
     if (curBut < 11) {
       panel.buttons[curBut%4].toggle();
@@ -142,23 +153,22 @@ void drawWin() {
       curBut++;
       startTime = millis();
     }
+    // once the sequence is done, make sure the selection button starts to blink
     else {
       blink = true;
-      //reset
+      //reset current button to start position
       curBut = 0;
     }
   }
+  
+  // let the selection button blink if blink is true
   if (blink && startTime + 700 < millis()) {
     startTime = millis();
     panel.buttons[3].toggle();
   }
-
-  // laat selectie button knipperen?
-  // selectie is nieuw spel reset alles
-  // gameState = 1
 }
 
-/* if a button is clicked, turn it on/off and/or execute the 'code' */
+/* if a button is clicked, turn it on/off and/or execute the button code */
 void mousePressed() {  
   for (PanelButton button : panel.buttons) {
     if (mouseX > button.xPos && mouseX < (button.xPos + button.diam)) {
@@ -172,16 +182,19 @@ void mousePressed() {
             firstTime = true;
             gameState = 1;
           }
+          // open help menu
           else if (help) {
             help = false;
             panel.resetButtons();
             gameState = 1;
           }
+          // execute user code
           else {
             panel.execute(field);
             panel.resetButtons();
           }
         }
+        // switch button on or off depending on previous state
         else if (!gamePause && !help){
           button.toggle();
         }
